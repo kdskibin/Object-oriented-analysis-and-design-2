@@ -1,0 +1,6 @@
+.venv*
+.env*
+*pycache*
+dev*
+*.ipynb
+diagrams/
