@@ -4,3 +4,38 @@
 dev*
 *.ipynb
 diagrams/
+
+## Игнорирование результатов сборки
+bin/
+obj/
+
+## Пользовательские настройки VS
+.vs/
+*.suo
+*.user
+*.userosscache
+
+## Временные файлы
+*.tmp
+*.bak
+*.log
+TestResults/
+
+## NuGet packages (если используется packages.config)
+packages/
+*.nupkg
+
+## Файлы покрытия кода
+*.coverage
+*.coveragexml
+
+## Файлы конфигурации с секретами
+appsettings.Development.json
+secrets.json
+
+## Файлы, создаваемые ReSharper и другими инструментами
+_ReSharper.*/
+*.DotSettings.user
+
+x64/
+x32/
