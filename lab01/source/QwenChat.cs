@@ -9,7 +9,7 @@ namespace source
         private float _topP;
 
         public QwenChat(float temperature, string systemPrompt, int maxTokens,
-            bool thinking, int topK, float topP, OllamaService service): base("qwen3:latest", temperature, systemPrompt, maxTokens, service)
+            bool thinking, int topK, float topP, OllamaService service): base("qwen3:14b", temperature, systemPrompt, maxTokens, service)
         {
             _thinking = thinking;
             _topK = topK;

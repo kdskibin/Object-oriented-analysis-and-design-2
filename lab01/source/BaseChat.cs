@@ -3,10 +3,6 @@ using System.Text.Json.Nodes;
 
 namespace source
 {
-    /// <summary>
-    /// Базовый класс чата (Product в паттерне Factory Method).
-    /// Все методы генерации — синхронные.
-    /// </summary>
     public abstract class BaseChat
     {
         public string SystemPrompt;

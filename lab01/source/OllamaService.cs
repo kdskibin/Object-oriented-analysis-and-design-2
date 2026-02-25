@@ -11,14 +11,13 @@ namespace source
         private string _baseUrl;
         private int _timeout;
 
-        public OllamaService(string baseUrl = "http://localhost:11434")
+        public OllamaService(string baseUrl = "")
         {
             _baseUrl = baseUrl.TrimEnd('/');
             _timeout = 300000;
         }
 
         // обычный запрос (stream = false)
-
         public string SendChatRequest(string jsonBody)
         {
             var request = (HttpWebRequest)WebRequest.Create($"{_baseUrl}/api/chat");

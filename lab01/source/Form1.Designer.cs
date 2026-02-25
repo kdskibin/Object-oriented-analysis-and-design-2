@@ -33,6 +33,7 @@
             ClearBtn = new Button();
             listBox1 = new ListBox();
             SendBtn = new Button();
+            inputTextBox = new TextBox();
             SuspendLayout();
             // 
             // ModelLabel
@@ -69,9 +70,10 @@
             // 
             listBox1.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
             listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(12, 66);
+            listBox1.HorizontalScrollbar = true;
+            listBox1.Location = new Point(12, 94);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(776, 368);
+            listBox1.Size = new Size(776, 340);
             listBox1.TabIndex = 4;
             // 
             // SendBtn
@@ -85,12 +87,21 @@
             SendBtn.UseVisualStyleBackColor = true;
             SendBtn.Click += SendBtn_Click;
             // 
+            // inputTextBox
+            // 
+            inputTextBox.Location = new Point(12, 59);
+            inputTextBox.Name = "inputTextBox";
+            inputTextBox.Size = new Size(776, 23);
+            inputTextBox.TabIndex = 6;
+            inputTextBox.Text = "Ваше сообщение...";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             ClientSize = new Size(800, 450);
+            Controls.Add(inputTextBox);
             Controls.Add(SendBtn);
             Controls.Add(listBox1);
             Controls.Add(ClearBtn);
@@ -111,5 +122,6 @@
         private Button ClearBtn;
         private ListBox listBox1;
         private Button SendBtn;
+        private TextBox inputTextBox;
     }
 }
