@@ -6,13 +6,15 @@ namespace source
 {
     public class QwenChatCreator : BaseChatCreator
     {
+        public string ModelName;
         public bool Thinking;
         public int TopK;
         public float TopP;
 
-        public QwenChatCreator(float temperature = 0.7f, bool thinking = true,
+        public QwenChatCreator(string modelname, bool thinking = true, float temperature = 0.7f,
             int topK = 40, float topP = 0.9f, OllamaService service = null): base(temperature, service)
         {
+            ModelName = modelname;
             Thinking = thinking;
             TopK = topK;
             TopP = topP;
@@ -20,7 +22,7 @@ namespace source
 
         public override BaseChat MakeChat(string systemPrompt = "", int maxTokens = 32768)
         {
-            return new QwenChat(Temperature, systemPrompt, maxTokens, Thinking, TopK, TopP, Service);
+            return new QwenChat(ModelName, Temperature, systemPrompt, maxTokens, Thinking, TopK, TopP, Service);
         }
     }
 }

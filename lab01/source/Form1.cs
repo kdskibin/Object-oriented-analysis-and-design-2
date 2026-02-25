@@ -13,8 +13,7 @@ namespace source
         public Form1()
         {
             InitializeComponent();
-            this.service = new OllamaService("http://localhost:11434");
-            //this.service = new OllamaService("176.65.62.122:11434");
+            service = new OllamaService();
             LoadModels();
         }
 

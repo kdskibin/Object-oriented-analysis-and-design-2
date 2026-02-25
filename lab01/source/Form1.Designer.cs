@@ -53,13 +53,13 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(105, 11);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 22);
+            comboBox1.Size = new Size(199, 22);
             comboBox1.TabIndex = 1;
             // 
             // ClearBtn
             // 
             ClearBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            ClearBtn.Location = new Point(304, 10);
+            ClearBtn.Location = new Point(321, 10);
             ClearBtn.Name = "ClearBtn";
             ClearBtn.Size = new Size(88, 23);
             ClearBtn.TabIndex = 3;
@@ -91,9 +91,9 @@
             // 
             inputTextBox.Location = new Point(12, 59);
             inputTextBox.Name = "inputTextBox";
+            inputTextBox.PlaceholderText = "Ваше сообщение...";
             inputTextBox.Size = new Size(776, 23);
             inputTextBox.TabIndex = 6;
-            inputTextBox.Text = "Ваше сообщение...";
             // 
             // Form1
             // 

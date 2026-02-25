@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -8,19 +9,27 @@ namespace source
 {
     public class OllamaService
     {
-        private string _baseUrl;
+        private string base_url;
         private int _timeout;
+        //public ProviderConfiguration provider_configuration;
 
-        public OllamaService(string baseUrl = "")
+        public OllamaService()
         {
-            _baseUrl = baseUrl.TrimEnd('/');
+            using (FileStream fs = new FileStream("configs/Ollama.json", FileMode.Open))
+            {
+                ProviderConfiguration provider_configuration = JsonSerializer.Deserialize<OllamaConfiguration>(fs);
+                if (provider_configuration is null)
+                    throw new Exception("Ошибка! Пустая конфигурация провайдера!");
+                base_url = provider_configuration.base_url.TrimEnd('/');
+            }
+            Debug.WriteLine($"base url = {base_url}");
             _timeout = 300000;
         }
 
         // обычный запрос (stream = false)
         public string SendChatRequest(string jsonBody)
         {
-            var request = (HttpWebRequest)WebRequest.Create($"{_baseUrl}/api/chat");
+            var request = (HttpWebRequest)WebRequest.Create($"{base_url}/api/chat");
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
             request.Timeout = _timeout; // 5 минут
@@ -47,10 +56,9 @@ namespace source
         }
 
         // потоковый запрос (stream = true)
-
         public string SendStreamingRequest(string jsonBody, Action<string> onToken)
         {
-            var request = (HttpWebRequest)WebRequest.Create($"{_baseUrl}/api/chat");
+            var request = (HttpWebRequest)WebRequest.Create($"{base_url}/api/chat");
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
             request.Timeout = _timeout;

@@ -29,7 +29,7 @@ namespace source
         protected abstract JsonObject BuildOptions();
 
         // Собирает JSON-тело запроса к /api/chat.
-        protected virtual string BuildRequestJson(string userMessage, bool stream)
+        protected virtual JsonObject BuildRequestJson(string userMessage, bool stream)
         {
             Context.Add(new ChatMessage("user", userMessage));
 
@@ -50,13 +50,13 @@ namespace source
                 ["stream"] = stream,
                 ["options"] = BuildOptions()
             };
-            return body.ToJsonString();
+            return body;
         }
 
         // Генерация Без стриминга
         public virtual string GenerateWithoutStreaming(string request)
         {
-            string json = BuildRequestJson(request, stream: false);
+            string json = BuildRequestJson(request, stream: false).ToJsonString();
             string response = Service.SendChatRequest(json);
             Context.Add(new ChatMessage("assistant", response));
             return response;
@@ -65,7 +65,7 @@ namespace source
         // Генерация СО стримингом
         public virtual string GenerateWithStreaming(string request, Action<string> onToken)
         {
-            string json = BuildRequestJson(request, stream: true);
+            string json = BuildRequestJson(request, stream: true).ToJsonString();
             string response = Service.SendStreamingRequest(json, onToken);
             Context.Add(new ChatMessage("assistant", response));
             return response;

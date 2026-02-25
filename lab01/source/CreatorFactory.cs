@@ -7,7 +7,7 @@ namespace source
     // Фабрика для создания экземпляров чат-моделей.
     public static class CreatorFactory
     {
-        public static List<string> available_models = new List<string>() { "qwen3:14b" };
+        public static List<string> available_models = new List<string>() { "qwen3:14b", "qwen3:14b--thinking" };
         public static BaseChatCreator GetSuitableCreator(string modelName)
         {
             // Приводим имя модели к нижнему регистру и удаляем лишние пробелы
@@ -15,7 +15,10 @@ namespace source
 
             if (key.Contains("qwen"))
             {
-                return new QwenChatCreator();
+                if (key.Contains("--thinking"))
+                    return new QwenChatCreator(modelName.Replace("--thinking", ""), true);
+                else
+                    return new QwenChatCreator(modelName, false);
             }
 
             //if (key == "gemma")
