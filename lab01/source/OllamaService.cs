@@ -11,7 +11,6 @@ namespace source
     {
         private string base_url;
         private int _timeout;
-        //public ProviderConfiguration provider_configuration;
 
         public OllamaService()
         {

@@ -19,17 +19,17 @@ namespace source
 
         private void LoadModels()
         {
-            comboBox1.Items.Clear();
+            ModelSelector_cb.Items.Clear();
             foreach (string name in CreatorFactory.available_models)
-                comboBox1.Items.Add(name);
+                ModelSelector_cb.Items.Add(name);
 
-            if (comboBox1.Items.Count > 0)
-                comboBox1.SelectedIndex = 0;
+            if (ModelSelector_cb.Items.Count > 0)
+                ModelSelector_cb.SelectedIndex = 0;
         }
 
         private void CreateChat()
         {
-            string modelName = comboBox1.SelectedItem as string;
+            string modelName = ModelSelector_cb.SelectedItem as string;
             if (string.IsNullOrEmpty(modelName))
             {
                 MessageBox.Show("Сначала выберите модель!",
@@ -45,7 +45,7 @@ namespace source
 
         private void SendBtn_Click(object sender, EventArgs e)
         {
-            string userMessage = inputTextBox.Text.Trim();
+            string userMessage = InputMessage_tb.Text.Trim();
             if (string.IsNullOrEmpty(userMessage)) return;
             if (_isGenerating) return;
 
@@ -55,14 +55,14 @@ namespace source
             if (_currentChat == null) return;
 
             // Показываем сообщение пользователя
-            listBox1.Items.Add("  Вы:  " + userMessage);
-            inputTextBox.Clear();
+            ConversationBox.Items.Add("  Вы:  " + userMessage);
+            InputMessage_tb.Clear();
 
             SetUiLocked(true);
 
             // Плейсхолдер для ответа
-            listBox1.Items.Add("  Ассистент: ");
-            int responseIndex = listBox1.Items.Count - 1;
+            ConversationBox.Items.Add("  Ассистент: ");
+            int responseIndex = ConversationBox.Items.Count - 1;
 
             // Захватываем ссылки для потока
             BaseChat chat = _currentChat;
@@ -95,23 +95,23 @@ namespace source
                     // Обновляем ListBox из UI-потока
                     this.Invoke(new Action(delegate
                     {
-                        listBox1.Items[responseIndex] = "  Ассистент: " + currentText;
-                        listBox1.TopIndex = responseIndex;
+                        ConversationBox.Items[responseIndex] = "  Ассистент: " + currentText;
+                        ConversationBox.TopIndex = responseIndex;
                     }));
                 });
 
                 // Генерация завершена
                 this.Invoke(new Action(delegate
                 {
-                    listBox1.Items.Add("───────────────────────────────────────");
+                    ConversationBox.Items.Add("───────────────────────────────────────");
                 }));
             }
             catch (Exception ex)
             {
                 this.Invoke(new Action(delegate
                 {
-                    listBox1.Items.Add("  Ошибка: " + ex.Message);
-                    listBox1.Items.Add("  Убедитесь, что Ollama запущена (ollama serve)");
+                    ConversationBox.Items.Add("  Ошибка: " + ex.Message);
+                    ConversationBox.Items.Add("  Убедитесь, что Ollama запущена (ollama serve)");
                 }));
             }
             finally
@@ -120,43 +120,26 @@ namespace source
                 {
                     _isGenerating = false;
                     SetUiLocked(false);
-                    inputTextBox.Focus();
+                    InputMessage_tb.Focus();
                 }));
             }
         }
 
-        /* ────── вспомогательные обработчики ────── */
-
-        private void ClearBtn_Click(object sender, EventArgs e)
-        {
-            if (_isGenerating) return;
-            listBox1.Items.Clear();
-            if (_currentChat != null)
-                _currentChat.ClearContext();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_isGenerating) return;
-            _currentChat = null;
-            listBox1.Items.Clear();
-        }
-
-        private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                SendBtn.PerformClick();
-            }
-        }
-
+        // Вспомогательные обработчики
         private void SetUiLocked(bool locked)
         {
-            SendBtn.Enabled = !locked;
-            inputTextBox.Enabled = !locked;
-            comboBox1.Enabled = !locked;
-            ClearBtn.Enabled = !locked;
+            Send_Btn.Enabled = !locked;
+            InputMessage_tb.Enabled = !locked;
+            ModelSelector_cb.Enabled = !locked;
+            Clear_Btn.Enabled = !locked;
+        }
+
+        private void Clear_Btn_Click(object sender, EventArgs e)
+        {
+            if (_isGenerating) return;
+            ConversationBox.Items.Clear();
+            if (_currentChat != null)
+                _currentChat.ClearContext();
         }
     }
 }
