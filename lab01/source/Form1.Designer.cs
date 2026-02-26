@@ -1,6 +1,6 @@
 ﻿namespace source
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -43,25 +43,25 @@
             ModelLabel.ForeColor = Color.White;
             ModelLabel.Location = new Point(12, 12);
             ModelLabel.Name = "ModelLabel";
-            ModelLabel.Size = new Size(99, 25);
+            ModelLabel.Size = new Size(77, 18);
             ModelLabel.TabIndex = 0;
             ModelLabel.Text = "Модель";
             // 
             // ModelSelector_cb
             // 
-            ModelSelector_cb.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            ModelSelector_cb.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
             ModelSelector_cb.FormattingEnabled = true;
             ModelSelector_cb.Location = new Point(117, 11);
             ModelSelector_cb.Name = "ModelSelector_cb";
-            ModelSelector_cb.Size = new Size(199, 26);
+            ModelSelector_cb.Size = new Size(199, 23);
             ModelSelector_cb.TabIndex = 1;
             // 
             // Clear_Btn
             // 
-            Clear_Btn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            Clear_Btn.Font = new Font("Arial", 9F);
             Clear_Btn.Location = new Point(335, 11);
             Clear_Btn.Name = "Clear_Btn";
-            Clear_Btn.Size = new Size(109, 23);
+            Clear_Btn.Size = new Size(109, 22);
             Clear_Btn.TabIndex = 3;
             Clear_Btn.Text = "Очитстить";
             Clear_Btn.UseVisualStyleBackColor = true;
@@ -69,16 +69,16 @@
             // 
             // ConversationBox
             // 
-            ConversationBox.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            ConversationBox.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
             ConversationBox.FormattingEnabled = true;
             ConversationBox.Location = new Point(12, 112);
             ConversationBox.Name = "ConversationBox";
-            ConversationBox.Size = new Size(776, 310);
+            ConversationBox.Size = new Size(776, 292);
             ConversationBox.TabIndex = 4;
             // 
             // Send_Btn
             // 
-            Send_Btn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            Send_Btn.Font = new Font("Arial", 9F);
             Send_Btn.Location = new Point(669, 10);
             Send_Btn.Name = "Send_Btn";
             Send_Btn.Size = new Size(110, 23);
@@ -89,15 +89,16 @@
             // 
             // InputMessage_tb
             // 
+            InputMessage_tb.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
             InputMessage_tb.Location = new Point(12, 59);
             InputMessage_tb.Name = "InputMessage_tb";
             InputMessage_tb.PlaceholderText = "Ваше сообщение...";
-            InputMessage_tb.Size = new Size(776, 27);
+            InputMessage_tb.Size = new Size(776, 21);
             InputMessage_tb.TabIndex = 6;
             // 
-            // Form1
+            // MainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             ClientSize = new Size(800, 450);
@@ -108,7 +109,7 @@
             Controls.Add(ModelSelector_cb);
             Controls.Add(ModelLabel);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            Name = "Form1";
+            Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Another one";
             ResumeLayout(false);

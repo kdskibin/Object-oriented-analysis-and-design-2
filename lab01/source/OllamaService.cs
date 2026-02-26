@@ -10,7 +10,7 @@ namespace source
     public class OllamaService
     {
         private string base_url;
-        private int _timeout;
+        private int timeout;
 
         public OllamaService()
         {
@@ -22,7 +22,7 @@ namespace source
                 base_url = provider_configuration.base_url.TrimEnd('/');
             }
             Debug.WriteLine($"base url = {base_url}");
-            _timeout = 300000;
+            timeout = 300000;
         }
 
         // обычный запрос (stream = false)
@@ -31,7 +31,7 @@ namespace source
             var request = (HttpWebRequest)WebRequest.Create($"{base_url}/api/chat");
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
-            request.Timeout = _timeout; // 5 минут
+            request.Timeout = timeout; // 5 минут
 
             byte[] bodyBytes = Encoding.UTF8.GetBytes(jsonBody);
             request.ContentLength = bodyBytes.Length;
@@ -60,7 +60,7 @@ namespace source
             var request = (HttpWebRequest)WebRequest.Create($"{base_url}/api/chat");
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
-            request.Timeout = _timeout;
+            request.Timeout = timeout;
 
             byte[] bodyBytes = Encoding.UTF8.GetBytes(jsonBody);
             request.ContentLength = bodyBytes.Length;

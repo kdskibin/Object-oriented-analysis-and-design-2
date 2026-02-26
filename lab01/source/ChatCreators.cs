@@ -46,4 +46,24 @@ namespace source
             return new GPTOssChat(ModelName, Temperature, systemPrompt, maxTokens, thinking_level, TopK, TopP, Service);
         }
     }
+
+    public class GemmaChatCreator : BaseChatCreator
+    {
+        public string ModelName;
+        public int TopK;
+        public float TopP;
+
+        public GemmaChatCreator(string modelname, float temperature = 0.7f,
+            int topK = 40, float topP = 0.9f, OllamaService service = null) : base(temperature, service)
+        {
+            ModelName = modelname;
+            TopK = topK;
+            TopP = topP;
+        }
+
+        public override BaseChat MakeChat(string systemPrompt = "", int maxTokens = 16384)
+        {
+            return new GemmaChat(ModelName, Temperature, systemPrompt, maxTokens, TopK, TopP, Service);
+        }
+    }
 }

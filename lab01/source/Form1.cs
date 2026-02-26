@@ -3,14 +3,14 @@ using System.Threading;
 
 namespace source
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         public OllamaService service { get; private set; }
-        private BaseChat _currentChat;
-        private Thread _workerThread;
+        private BaseChat currentChat;
+        private Thread workerThread;
         private volatile bool _isGenerating;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             service = new OllamaService();
@@ -40,7 +40,7 @@ namespace source
             BaseChatCreator creator = CreatorFactory.GetSuitableCreator(modelName);
             creator.InitOllamaService(service);
 
-            _currentChat = creator.MakeChat(systemPrompt: "Ты - полезный ассистент для помощи пользователям. Отвечай лаконично и по делу.");
+            currentChat = creator.MakeChat(systemPrompt: "Ты - полезный ассистент для помощи пользователям. Отвечай лаконично и по делу.");
         }
 
         private void SendBtn_Click(object sender, EventArgs e)
@@ -50,11 +50,12 @@ namespace source
             if (_isGenerating) return;
 
             // Создаём чат при первом обращении
-            if (_currentChat == null)
+            if (currentChat == null)
                 CreateChat();
-            if (_currentChat == null) return;
+            if (currentChat == null) return;
 
             // Показываем сообщение пользователя
+            ConversationBox.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
             ConversationBox.Items.Add("  Вы:  " + userMessage);
             InputMessage_tb.Clear();
 
@@ -62,20 +63,21 @@ namespace source
 
             // Плейсхолдер для ответа
             ConversationBox.Items.Add("  Ассистент: ");
+            ConversationBox.Font = new Font("Cascadia Mono", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
             int responseIndex = ConversationBox.Items.Count - 1;
 
             // Захватываем ссылки для потока
-            BaseChat chat = _currentChat;
+            BaseChat chat = currentChat;
             string message = userMessage;
 
             // Запускаем генерацию в отдельном потоке
             _isGenerating = true;
-            _workerThread = new Thread(() =>
+            workerThread = new Thread(() =>
             {
                 WorkerGenerate(chat, message, responseIndex);
             });
-            _workerThread.IsBackground = true;
-            _workerThread.Start();
+            workerThread.IsBackground = true;
+            workerThread.Start();
         }
 
         // Метод выполняется в фоновом потоке.
@@ -138,8 +140,8 @@ namespace source
         {
             if (_isGenerating) return;
             ConversationBox.Items.Clear();
-            if (_currentChat != null)
-                _currentChat.ClearContext();
+            if (currentChat != null)
+                currentChat.ClearContext();
         }
     }
 }

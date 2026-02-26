@@ -53,7 +53,7 @@ namespace source
             return body;
         }
 
-        // Генерация Без стриминга
+        // Генерация без стриминга
         public virtual string GenerateWithoutStreaming(string request)
         {
             string json = BuildRequestJson(request, stream: false).ToJsonString();
@@ -62,7 +62,7 @@ namespace source
             return response;
         }
 
-        // Генерация СО стримингом
+        // Генерация со стримингом
         public virtual string GenerateWithStreaming(string request, Action<string> onToken)
         {
             string json = BuildRequestJson(request, stream: true).ToJsonString();
