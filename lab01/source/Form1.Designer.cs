@@ -43,7 +43,7 @@
             ModelLabel.ForeColor = Color.White;
             ModelLabel.Location = new Point(12, 12);
             ModelLabel.Name = "ModelLabel";
-            ModelLabel.Size = new Size(77, 18);
+            ModelLabel.Size = new Size(99, 25);
             ModelLabel.TabIndex = 0;
             ModelLabel.Text = "Модель";
             // 
@@ -53,7 +53,7 @@
             ModelSelector_cb.FormattingEnabled = true;
             ModelSelector_cb.Location = new Point(117, 11);
             ModelSelector_cb.Name = "ModelSelector_cb";
-            ModelSelector_cb.Size = new Size(199, 23);
+            ModelSelector_cb.Size = new Size(199, 25);
             ModelSelector_cb.TabIndex = 1;
             // 
             // Clear_Btn
@@ -71,6 +71,8 @@
             // 
             ConversationBox.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
             ConversationBox.FormattingEnabled = true;
+            ConversationBox.HorizontalExtent = 8192;
+            ConversationBox.HorizontalScrollbar = true;
             ConversationBox.Location = new Point(12, 112);
             ConversationBox.Name = "ConversationBox";
             ConversationBox.Size = new Size(776, 292);
@@ -93,12 +95,12 @@
             InputMessage_tb.Location = new Point(12, 59);
             InputMessage_tb.Name = "InputMessage_tb";
             InputMessage_tb.PlaceholderText = "Ваше сообщение...";
-            InputMessage_tb.Size = new Size(776, 21);
+            InputMessage_tb.Size = new Size(776, 25);
             InputMessage_tb.TabIndex = 6;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             ClientSize = new Size(800, 450);
