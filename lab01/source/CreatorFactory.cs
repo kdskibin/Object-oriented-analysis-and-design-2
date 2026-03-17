@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Diagnostics;
 
 namespace source
 {
     // Фабрика для создания экземпляров чат-моделей.
     public static class CreatorFactory
     {
-        public static List<string> available_models = new List<string>() { "qwen3:14b", "qwen3:14b--thinking", "gemma3:12b", "gptoss:20b--low", "gptoss:20b--medium", "gptoss:20b--high" };
+        public static List<string> available_models = new List<string>() { "qwen3:14b", "qwen3:14b--thinking", "gemma3:12b", "gpt-oss:20b--low", "gpt-oss:20b--medium", "gpt-oss:20b--high" };
         public static BaseChatCreator GetSuitableCreator(string modelName)
         {
             // Приводим имя модели к нижнему регистру и удаляем лишние пробелы
@@ -27,9 +28,12 @@ namespace source
                 return new GemmaChatCreator(modelName);
             }
 
-            if (key.Contains("gptoss"))
+            if (key.Contains("gpt-oss"))
             {
-                string thinking_level = Regex.Match(modelName, @"--(\w+)").ToString();
+                Match match = Regex.Match(modelName, @"--(\w+)");
+                string thinking_level = match.Groups[1].Value; // "low", "medium" или "high"
+                Debug.WriteLine(thinking_level);
+                Debug.WriteLine(Regex.Replace(modelName, @"--(?:\w+)", ""));
                 return new GPTOssChatCreator(Regex.Replace(modelName, @"--(?:\w+)", ""), thinking_level);
             }
 
