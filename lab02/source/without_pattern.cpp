@@ -1,4 +1,4 @@
-﻿#include <windows.h>
+#include <windows.h>
 #include <commctrl.h>
 #include <vector>
 #include <string>
@@ -45,30 +45,22 @@ bool theft_activity() {
     return false;
 }
 
-// Безопасное преобразование строки в double
 bool ParseDouble(const wstring& str, double& out) {
     wstringstream ss(str);
     ss >> out;
     return !ss.fail() && ss.eof();
 }
 
-
-class PaymentGateway {
-public:
-    virtual ~PaymentGateway() {}
-    virtual void pay(double amount) = 0;
-};
-
 class AlphaBank {
 public:
     void makePayment(double amount, int MCC) {
         wstring msg;
         if (MCC == 5262) {
-            msg = L"AlphaBank: платеж на сумму " + to_wstring(amount) +
+            msg = L"AlphaBank: платёж на сумму " + to_wstring(amount) +
                 L". Бонусная программа не действует на данный магазин, бонусы зачислены не будут.";
         }
         else {
-            msg = L"AlphaBank: платеж на сумму " + to_wstring(amount) +
+            msg = L"AlphaBank: платёж на сумму " + to_wstring(amount) +
                 L".\nДанный магазин участвует в бонусной программе, вам будет начислено " +
                 to_wstring(static_cast<int>(amount / 10)) + L" бонусных рублей!";
         }
@@ -79,7 +71,7 @@ public:
 class BetaBank {
 public:
     void doPay(double amount) {
-        wstring msg = L"BetaBank: платеж на сумму " + to_wstring(amount);
+        wstring msg = L"BetaBank: платёж на сумму " + to_wstring(amount);
         MessageBox(NULL, msg.c_str(), L"BetaBank", MB_OK);
     }
 };
@@ -87,7 +79,7 @@ public:
 class GammaBank {
 public:
     void sendMoney(double amount) {
-        wstring msg = L"GammaBank: платеж на сумму " + to_wstring(amount);
+        wstring msg = L"GammaBank: платёж на сумму " + to_wstring(amount);
         MessageBox(NULL, msg.c_str(), L"GammaBank", MB_OK);
     }
 };
@@ -97,48 +89,11 @@ public:
     void pay(double amount, string card_number, int code, string date) {
         wstring wcard(card_number.begin(), card_number.end());
         wstring wdate(date.begin(), date.end());
-        wstring msg = L"Онлайн оплата на сумму " + to_wstring(amount) + L" с карты " + wcard + L".";
+        wstring msg = L"Онлайн оплата на сумму " + to_wstring(amount) +
+            L" с карты " + wcard + L".";
         MessageBox(NULL, msg.c_str(), L"Онлайн-оплата", MB_OK);
     }
 };
-
-
-class AlphaBankAdapter : public PaymentGateway {
-    AlphaBank* bank;
-public:
-    AlphaBankAdapter(AlphaBank* b) : bank(b) {}
-    void pay(double amount) override {
-        bank->makePayment(amount, 1052);
-    }
-};
-
-class BetaBankAdapter : public PaymentGateway {
-    BetaBank* bank;
-public:
-    BetaBankAdapter(BetaBank* b) : bank(b) {}
-    void pay(double amount) override {
-        bank->doPay(amount);
-    }
-};
-
-class GammaBankAdapter : public PaymentGateway {
-    GammaBank* bank;
-public:
-    GammaBankAdapter(GammaBank* b) : bank(b) {}
-    void pay(double amount) override {
-        bank->sendMoney(amount);
-    }
-};
-
-class OnlineAdapter : public PaymentGateway {
-    OnlinePayment* cite;
-public:
-    OnlineAdapter(OnlinePayment* p) : cite(p) {}
-    void pay(double amount) override {
-        cite->pay(amount, "2202 0597 3205 1132", 123, "01/27");
-    }
-};
-
 
 HWND hCombo;
 HWND hEditSum;
@@ -146,14 +101,12 @@ HWND hButton;
 HWND hResultStatic;
 HWND hMoneyStatic;
 
-vector<PaymentGateway*> gateways;
 vector<wstring> bankNames = { L"AlphaBank", L"BetaBank", L"GammaBank", L"Картой онлайн" };
 
 AlphaBank alpha_bank;
 BetaBank beta_bank;
 GammaBank gamma_bank;
 OnlinePayment online_pay;
-
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message) {
@@ -193,12 +146,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         hMoneyStatic = CreateWindow(L"STATIC", current_balance_str.c_str(),
             WS_VISIBLE | WS_CHILD | SS_CENTER,
             50, 210, 300, 30, hWnd, NULL, NULL, NULL);
-
-        // Создаём адаптеры
-        gateways.push_back(new AlphaBankAdapter(&alpha_bank));
-        gateways.push_back(new BetaBankAdapter(&beta_bank));
-        gateways.push_back(new GammaBankAdapter(&gamma_bank));
-        gateways.push_back(new OnlineAdapter(&online_pay));
     }
     break;
 
@@ -226,9 +173,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             if (theft) {
                 MessageBox(hWnd, L"К сожалению, вы попали на фишинговый сайт. Все ваши деньги были украдены.",
                     L"Нет денег.", MB_OK);
-                // Обновляем строку баланса
                 SetWindowText(hMoneyStatic, L"Ваш баланс: 0.00");
-                SetWindowText(hResultStatic, L"Кража! Баланс обнулен.");
+                SetWindowText(hResultStatic, L"Кража! Баланс обнулён.");
                 return 0;
             }
 
@@ -243,8 +189,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
                 return 0;
             }
 
-            // Выполняем оплату
-            gateways[sel]->pay(amount);
+            // Выполняем оплату напрямую через соответствующий банк
+            switch (sel) {
+            case 0: // AlphaBank
+                alpha_bank.makePayment(amount, 1052);
+                break;
+            case 1: // BetaBank
+                beta_bank.doPay(amount);
+                break;
+            case 2: // GammaBank
+                gamma_bank.sendMoney(amount);
+                break;
+            case 3: // Картой онлайн
+                online_pay.pay(amount, "2202 0597 3205 1132", 123, "01/27");
+                break;
+            }
 
             // Списываем сумму
             current_balance -= amount;
@@ -263,7 +222,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         break;
 
     case WM_DESTROY:
-        for (auto* g : gateways) delete g;
         PostQuitMessage(0);
         break;
 
@@ -272,7 +230,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     }
     return 0;
 }
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     // Инициализация общих элементов управления
@@ -285,7 +242,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     WNDCLASS wc = {};
     wc.lpfnWndProc = WndProc;
     wc.hInstance = hInstance;
-    wc.lpszClassName = L"AdapterDemoClass";
+    wc.lpszClassName = L"NoAdapterDemoClass";
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 
