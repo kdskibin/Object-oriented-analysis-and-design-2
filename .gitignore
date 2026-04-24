@@ -40,4 +40,6 @@ _ReSharper.*/
 x64/
 x32/
 
+static*/
+
 *.json
