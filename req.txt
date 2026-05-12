@@ -1,0 +1,5 @@
+fitz
+pdfplumber
+flask
+pandas
+numpy

@@ -41,5 +41,6 @@ x64/
 x32/
 
 static*/
+target/
 
 *.json
